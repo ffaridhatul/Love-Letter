@@ -14,178 +14,210 @@ body {
     justify-content: center;
     padding: 20px;
     position: relative;
+    line-height: 1.6;
+}
+
+/* ===== Overlay Styles ===== */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.4s ease-out;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    backdrop-filter: blur(4px);
+}
+
+.overlay-content h2 {
+    color: #e94d58;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Main Container ===== */
 .container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.96);
+    padding: 2.5rem 2rem;
+    border-radius: 18px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
     max-width: 600px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 100px;
+    width: 95%;
+    margin: 2rem auto;
+    position: relative;
+    backdrop-filter: blur(6px);
 }
 
 /* ===== Typography ===== */
 h1 {
     color: #e94d58;
-    margin-bottom: 25px;
-    font-size: 2.4em;
-    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
 }
 
 .confession-text {
-    font-size: 1.1em;
-    line-height: 1.7;
+    font-size: 1.1rem;
     color: #444;
-    margin-bottom: 30px;
-    padding: 0 10px;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    padding: 0 1rem;
 }
 
-/* ===== Buttons ===== */
+/* ===== Button Styles ===== */
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 1.5rem;
     flex-wrap: wrap;
-    margin-top: 25px;
-    position: relative;
+    margin-top: 2rem;
 }
 
 .whatsapp-button {
     background-color: #25D366;
     color: white;
-    padding: 15px 35px;
-    border-radius: 30px;
+    padding: 0.8rem 2.2rem;
+    border-radius: 2rem;
     text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    display: inline-block;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .whatsapp-button:hover {
     background-color: #128C7E;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(18, 140, 126, 0.3);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(18, 140, 126, 0.25);
 }
 
 .reject-button {
     background-color: #e94d58;
     color: white;
-    padding: 15px 35px;
-    border-radius: 30px;
-    font-weight: bold;
+    padding: 0.8rem 2.2rem;
+    border-radius: 2rem;
+    font-weight: 600;
     transition: all 0.3s ease;
     cursor: pointer;
     border: none;
-    position: static;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reject-button:hover {
+    background-color: #d1434e;
+    transform: translateY(-2px) scale(1.05);
 }
 
 /* ===== Music Player ===== */
 .music-player {
     position: fixed;
-    bottom: 25px;
+    bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px 25px;
-    border-radius: 30px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    background: rgba(255, 255, 255, 0.96);
+    padding: 1rem 1.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: min(90%, 320px);
     text-align: center;
     z-index: 100;
-}
-
-audio {
-    width: 100%;
-    outline: none;
-    margin-top: 8px;
-}
-
-.song-title {
-    color: #e94d58;
-    font-size: 0.95em;
-    font-weight: 600;
-}
-
-/* ===== Responsive Design ===== */
-@media (max-width: 480px) {
-    .container {
-        padding: 25px 20px;
-        margin-bottom: 120px;
-    }
-    
-    h1 {
-        font-size: 2em;
-        margin-bottom: 20px;
-    }
-    
-    .confession-text {
-        font-size: 1em;
-        padding: 0;
-    }
-    
-    .music-player {
-        width: 90%;
-        bottom: 15px;
-        padding: 12px 20px;
-    }
-    
-    .whatsapp-button,
-    .reject-button {
-        padding: 12px 30px;
-        font-size: 0.95em;
-    }
-
-    /* ... (CSS sebelumnya tetap sama) ... */
-
-/* ===== Music Player ===== */
-.music-player {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.97);
-    padding: 15px 25px;
-    border-radius: 30px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    z-index: 100;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
     transition: 0.3s all ease;
 }
 
 .song-title {
     color: #e94d58;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .music-controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 0.8rem;
+    align-items: center;
 }
 
 #playPauseBtn {
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 1.4rem;
     cursor: pointer;
     color: #e94d58;
-    transition: 0.3s transform ease;
+    transition: transform 0.2s ease;
+    padding: 0.5rem;
 }
 
 #playPauseBtn:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
-/* Sembunyikan audio default */
+/* ===== Responsive Design ===== */
+@media (max-width: 480px) {
+    .container {
+        padding: 1.5rem;
+        margin-bottom: 6rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .confession-text {
+        font-size: 1rem;
+        padding: 0;
+        line-height: 1.7;
+    }
+    
+    .music-player {
+        bottom: 1rem;
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .whatsapp-button,
+    .reject-button {
+        padding: 0.7rem 1.8rem;
+        font-size: 0.9rem;
+    }
+
+    .overlay-content {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+}
+
+/* Hidden Audio Element */
 audio {
     display: none;
-}
 }
