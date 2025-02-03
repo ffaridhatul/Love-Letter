@@ -1,20 +1,21 @@
-// audio-handler.js
 document.addEventListener('DOMContentLoaded', () => {
     // ============== AUDIO HANDLER ==============
     const audioPlayer = document.getElementById('audioPlayer');
-    const overlay = document.createElement('div');
+    const overlay = document.getElementById('overlay');
     let isPlaying = false;
-    let audioInitialized = false;
 
     // Setup audio overlay
-    overlay.id = 'audioOverlay';
-    overlay.innerHTML = `
-        <div class="overlay-content">
-            <h2>🎵 Klik Dimana Saja untuk Memulai Musik 🎵</h2>
-            <p>Agar pengalaman lebih romantis!</p>
-        </div>
-    `;
-    document.body.appendChild(overlay);
+    if (!overlay) {
+        const overlayDiv = document.createElement('div');
+        overlayDiv.id = 'audioOverlay';
+        overlayDiv.innerHTML = `
+            <div class="overlay-content">
+                <h2>🎵 Klik Dimana Saja untuk Memulai Musik 🎵</h2>
+                <p>Agar pengalaman lebih romantis!</p>
+            </div>
+        `;
+        document.body.appendChild(overlayDiv);
+    }
 
     // Audio play handler
     const playAudio = () => {
@@ -46,20 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-init audio on first interaction
     const initAudio = () => {
-        if(!audioInitialized) {
-            audioInitialized = true;
-            document.body.style.cursor = 'pointer';
-            
-            const startOnInteraction = () => {
-                playAudio();
-                document.removeEventListener('click', startOnInteraction);
-                document.removeEventListener('touchstart', startOnInteraction);
-                document.body.style.cursor = 'default';
-            };
+        document.body.style.cursor = 'pointer';
+        
+        const startOnInteraction = () => {
+            playAudio();
+            document.body.style.cursor = 'default';
+        };
 
-            document.addEventListener('click', startOnInteraction);
-            document.addEventListener('touchstart', startOnInteraction);
-        }
+        document.addEventListener('click', startOnInteraction, { once: true });
+        document.addEventListener('touchstart', startOnInteraction, { once: true });
     };
 
     // Try autoplay first
@@ -76,42 +72,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ============== REJECT BUTTON HANDLER ==============
     const rejectBtn = document.getElementById('rejectBtn');
-    let isMoving = false;
+    const buttonContainer = document.querySelector('.button-container');
 
     const moveButton = () => {
-        if(isMoving) return;
-        
-        isMoving = true;
+        const containerRect = buttonContainer.getBoundingClientRect();
         const btnRect = rejectBtn.getBoundingClientRect();
-        const maxX = window.innerWidth - btnRect.width - 20;
-        const maxY = window.innerHeight - btnRect.height - 20;
-
-        const newX = Math.max(20, Math.random() * maxX);
-        const newY = Math.max(20, Math.random() * maxY);
-
-        rejectBtn.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-        rejectBtn.style.transform = `translate(${newX}px, ${newY}px)`;
         
-        setTimeout(() => {
-            rejectBtn.style.transition = '';
-            isMoving = false;
-        }, 500);
+        const maxX = containerRect.width - btnRect.width - 20;
+        const maxY = containerRect.height - btnRect.height - 20;
+
+        const newX = Math.random() * maxX;
+        const newY = Math.random() * maxY;
+
+        rejectBtn.style.transform = `translate(${newX}px, ${newY}px)`;
     };
 
-    // Improved movement logic
     rejectBtn.addEventListener('mouseover', moveButton);
     rejectBtn.addEventListener('touchstart', moveButton);
 
-    // ============== VISUAL EFFECTS ==============
-    // Hover effect for buttons
-    document.querySelectorAll('.whatsapp-button, .reject-button').forEach(btn => {
-        btn.addEventListener('mouseover', () => {
-            btn.style.transform = 'scale(1.05)';
-        });
-        
-        btn.addEventListener('mouseout', () => {
-            btn.style.transform = 'scale(1)';
-        });
+    // Reset position on window resize
+    window.addEventListener('resize', () => {
+        rejectBtn.style.transform = 'translate(0, 0)';
     });
 
     // ============== ERROR HANDLING ==============
