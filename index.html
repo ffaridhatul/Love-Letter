@@ -10,7 +10,7 @@
     <div class="container">
         <h1>💌 Untuk Anna 💌</h1>
         <p class="confession-text">
-            Hai Anna, aku punya sesuatu yang ingin aku sampaikan. Sejak pertama kali kenal kamu, aku selalu merasa senang bisa dekat denganmu. Setiap hari yang kita lewati bersama membuatku semakin yakin bahwa kamu itu spesial. Aku suka caramu membuatku merasa berarti, dan aku ingin terus membuatmu tersenyum. Maukah kamu memberiku kesempatan untuk menjadi seseorang yang lebih dari sekedar teman?
+            Hai <del>bocil</del> Anna 😇, aku punya sesuatu yang ingin aku sampaikan. Sejak pertama kali kenal kamu, aku selalu merasa senang bisa dekat denganmu. Setiap hari yang kita lewati bersama membuatku semakin yakin bahwa kamu itu spesial. Aku suka caramu membuatku merasa berarti, dan aku ingin terus membuatmu tersenyum. Maukah kamu memberiku kesempatan untuk menjadi seseorang yang lebih dari sekedar teman?
         </p>
         <div class="button-container">
             <a href="https://wa.me/6282284861147?text=Aku%20menerima%20perasaanmu%20💖" class="whatsapp-button" target="_blank">Terima 💖</a>
@@ -18,8 +18,8 @@
         </div>
     </div>
 
-     <!-- Tambahkan overlay interaksi pertama -->
-     <div id="overlay">
+    <!-- Tambahkan overlay interaksi pertama -->
+    <div id="overlay">
         <div class="overlay-content">
             <h2>Klik Dimana Saja untuk Memulai</h2>
             <p>🎶 Musik akan dimainkan setelah klik pertama</p>
@@ -34,7 +34,8 @@
             Browser tidak mendukung pemutar audio
         </audio>
         <div class="music-controls">
-            <button id="playButton">▶️ Putar Musik</button>
+            <input type="range" id="music-duration" max="100" value="0">
+            <span id="music-duration-text">0:00</span>
         </div>
     </div>
 

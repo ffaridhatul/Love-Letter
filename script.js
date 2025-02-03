@@ -17,47 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(overlayDiv);
     }
 
-    // Audio play handler
-    const playAudio = () => {
-        audioPlayer.play()
-            .then(() => {
-                isPlaying = true;
-                overlay.style.display = 'none';
-                localStorage.setItem('audioPermission', 'granted');
-            })
-            .catch(error => {
-                console.error('Gagal memutar audio:', error);
-                showFallbackControls();
-            });
-    };
-
-    // Fallback controls
-    const showFallbackControls = () => {
-        const playBtn = document.createElement('button');
-        playBtn.id = 'fallbackPlayBtn';
-        playBtn.textContent = '▶️ Putar Musik';
-        playBtn.onclick = playAudio;
-        document.body.appendChild(playBtn);
-    };
-
-    // Check previous permission
-    if(localStorage.getItem('audioPermission') === 'granted') {
-        audioPlayer.play().catch(() => overlay.style.display = 'flex');
-    }
-
-    // Auto-init audio on first interaction
-    const initAudio = () => {
-        document.body.style.cursor = 'pointer';
-        
-        const startOnInteraction = () => {
-            playAudio();
-            document.body.style.cursor = 'default';
-        };
-
-        document.addEventListener('click', startOnInteraction, { once: true });
-        document.addEventListener('touchstart', startOnInteraction, { once: true });
-    };
-
     // Try autoplay first
     audioPlayer.play()
         .then(() => {
@@ -73,19 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============== REJECT BUTTON HANDLER ==============
     const rejectBtn = document.getElementById('rejectBtn');
     const buttonContainer = document.querySelector('.button-container');
-
-    const moveButton = () => {
-        const containerRect = buttonContainer.getBoundingClientRect();
-        const btnRect = rejectBtn.getBoundingClientRect();
-        
-        const maxX = containerRect.width - btnRect.width - 20;
-        const maxY = containerRect.height - btnRect.height - 20;
-
-        const newX = Math.random() * maxX;
-        const newY = Math.random() * maxY;
-
-        rejectBtn.style.transform = `translate(${newX}px, ${newY}px)`;
-    };
 
     rejectBtn.addEventListener('mouseover', moveButton);
     rejectBtn.addEventListener('touchstart', moveButton);
@@ -105,4 +51,44 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     });
+
+    // ============== MUSIC DURATION HANDLER ==============
+const musicDurationInput = document.getElementById('music-duration');
+const musicDurationText = document.getElementById('music-duration-text');
+
+audioPlayer.addEventListener('timeupdate', () => {
+    const currentTime = audioPlayer.currentTime;
+    const duration = audioPlayer.duration;
+    const progress = (currentTime / duration) * 100;
+    musicDurationInput.value = progress;
+    const minutes = Math.floor(currentTime / 60);
+    const seconds = Math.floor(currentTime % 60);
+    musicDurationText.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+});
+
+// ============== INIT AUDIO ==============
+function initAudio() {
+    audioPlayer.addEventListener('play', () => {
+        isPlaying = true;
+        overlay.style.display = 'none';
+    });
+
+    audioPlayer.addEventListener('pause', () => {
+        isPlaying = false;
+        overlay.style.display = 'flex';
+    });
+
+    overlay.addEventListener('click', () => {
+        if (!isPlaying) {
+            audioPlayer.play();
+        }
+    });
+}
+
+// ============== MOVE BUTTON ==============
+function moveButton() {
+    const x = Math.floor(Math.random() * (buttonContainer.offsetWidth - rejectBtn.offsetWidth));
+    const y = Math.floor(Math.random() * (buttonContainer.offsetHeight - rejectBtn.offsetHeight));
+    rejectBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
 });
